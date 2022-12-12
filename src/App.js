@@ -18,11 +18,12 @@ const questions = [
     correct: 2,
   }
 ];
+
 const Game = () => {
   return (
     <>
       <div className='progress'>
-        <div className='progress__inner' style={'width: 20 %'}></div>
+        <div className='progress__inner' style={{ width: '50%' }}></div>
       </div>
       <h1>Question</h1>
       <ul>
@@ -47,7 +48,7 @@ const App = () => {
   return (
     <div className='App'>
       <Game />
-      <Result />
+      {/* <Result /> */}
     </div>
 
   );

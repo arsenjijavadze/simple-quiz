@@ -19,36 +19,56 @@ const questions = [
   }
 ];
 
-const Game = () => {
+const Game = ({ step, question, onClickVariant }) => {
+  const percentage = Math.round(step / questions.length * 100);
+
+
   return (
     <>
       <div className='progress'>
-        <div className='progress__inner' style={{ width: '50%' }}></div>
+        <div className='progress__inner' style={{ width: `${percentage}%` }}></div>
       </div>
-      <h1>Question</h1>
+      <h1>{question.title}</h1>
       <ul>
-        <li>Variant1</li>
-        <li>Variant2</li>
-        <li>Variant3</li>
+        {
+          question.variants.map((text, index) => (<li onClick={() => onClickVariant(index)} key={text}>{text}</li>))
+        }
       </ul>
     </>
   )
 }
 
-const Result = () => {
+const Result = ({ correct }) => {
   return (
     <div className='result'>
       <img src='https://cdn-icons-png.flaticon.com/512/2278/2278992.png' />
-      <h2>You answered 2 out 3 question</h2>
-      <button>Retry</button>
+      <h2>You answered {correct} out {questions.length} question</h2>
+      <a href='/'>
+        <button>Retry</button>
+      </a>
     </div>
   )
 }
 const App = () => {
+  const [step, setStep] = React.useState(0);
+  const [correct, setCorrect] = React.useState(0);
+  const question = questions[step];
+
+  const onClickVariant = (index) => {
+    setStep(step + 1);
+    if (index === question.correct) {
+      setCorrect(correct + 1);
+      console.log(correct, question.correct);
+    }
+  }
   return (
     <div className='App'>
-      <Game />
-      {/* <Result /> */}
+      {
+        step !== questions.length ? (<Game question={question} step={step} onClickVariant={onClickVariant} />) : (
+          <Result correct={correct} />
+        )
+      }
+
     </div>
 
   );
